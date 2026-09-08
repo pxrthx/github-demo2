@@ -1,0 +1,13 @@
+{
+  "name": "student-task-tracker",
+  "version": "1.0.0",
+  "description": "Clean, lightweight student task tracker web application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["student", "tasks", "tracker", "todo"],
+  "author": "",
+  "license": "ISC"
+}
