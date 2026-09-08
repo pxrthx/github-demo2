@@ -18,15 +18,36 @@
   <div class="app-container">
     <!-- Header Section -->
     <header class="app-header">
-      <div class="header-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-        </svg>
+      <div class="header-branding">
+        <div class="header-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="app-title">Student Task Tracker</h1>
+          <p class="app-subtitle">Stay organized, track your study goals, and get things done.</p>
+        </div>
       </div>
-      <div>
-        <h1 class="app-title">Student Task Tracker</h1>
-        <p class="app-subtitle">Stay organized, track your study goals, and get things done.</p>
+
+      <!-- Logged-in Student Profile Bar -->
+      <div class="user-profile-bar" id="userProfileBar">
+        <div class="user-profile-info">
+          <div class="user-avatar" id="userAvatar">ST</div>
+          <div class="user-details">
+            <span class="user-name" id="userName">Student</span>
+            <span class="user-badge" id="userBadge">Undergraduate</span>
+          </div>
+        </div>
+        <button type="button" class="btn-logout" id="logoutBtn" title="Sign out of student account">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Sign Out</span>
+        </button>
       </div>
     </header>
 
@@ -119,7 +140,8 @@
     </footer>
   </div>
 
-  <!-- Main JavaScript File -->
+  <!-- Core Auth & Main JavaScript Files -->
+  <script src="auth.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

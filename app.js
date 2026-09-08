@@ -41,12 +41,27 @@ const progressBarTrack = document.getElementById('progressBarTrack');
 const filterBtns = document.querySelectorAll('.filter-btn');
 const clearCompletedBtn = document.getElementById('clearCompletedBtn');
 
+// User Profile Elements
+const userProfileBar = document.getElementById('userProfileBar');
+const userAvatar = document.getElementById('userAvatar');
+const userName = document.getElementById('userName');
+const userBadge = document.getElementById('userBadge');
+const logoutBtn = document.getElementById('logoutBtn');
+
 // ==========================================
 // 3. Storage Functions
 // ==========================================
+function getStorageKey() {
+  if (window.StudentAuth && typeof window.StudentAuth.getUserTasksStorageKey === 'function') {
+    return window.StudentAuth.getUserTasksStorageKey();
+  }
+  return STORAGE_KEY;
+}
+
 function loadTasks() {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const key = getStorageKey();
+    const saved = localStorage.getItem(key);
     if (saved) {
       tasks = JSON.parse(saved);
     } else {
@@ -62,7 +77,8 @@ function loadTasks() {
 
 function saveTasks() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    const key = getStorageKey();
+    localStorage.setItem(key, JSON.stringify(tasks));
   } catch (e) {
     console.error('Failed to save tasks to localStorage:', e);
   }
@@ -311,9 +327,62 @@ clearCompletedBtn.addEventListener('click', () => {
 });
 
 // ==========================================
-// 8. Initialization
+// 8. Initialization & Session Guard
 // ==========================================
+function initUserProfile() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isGuest = urlParams.get('guest') === 'true';
+
+  let currentUser = window.StudentAuth ? window.StudentAuth.getCurrentUser() : null;
+
+  // Route guard: if not authenticated and not explicitly in guest mode, redirect to login
+  if (!currentUser && !isGuest) {
+    window.location.href = 'login.html';
+    return false;
+  }
+
+  if (currentUser) {
+    if (userAvatar) {
+      userAvatar.textContent = currentUser.initials || 'ST';
+      userAvatar.style.backgroundColor = currentUser.avatarColor || '#4f46e5';
+    }
+    if (userName) userName.textContent = currentUser.name;
+    if (userBadge) userBadge.textContent = currentUser.major || 'Student';
+    if (logoutBtn) {
+      logoutBtn.title = `Signed in as ${currentUser.email}. Click to sign out.`;
+      logoutBtn.addEventListener('click', () => {
+        window.StudentAuth.logout();
+      });
+    }
+  } else if (isGuest) {
+    if (userAvatar) {
+      userAvatar.textContent = 'GS';
+      userAvatar.style.backgroundColor = '#64748b';
+    }
+    if (userName) userName.textContent = 'Guest Student';
+    if (userBadge) userBadge.textContent = 'Preview Mode';
+    if (logoutBtn) {
+      logoutBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+          <polyline points="10 17 15 12 10 7"/>
+          <line x1="15" y1="12" x2="3" y2="12"/>
+        </svg>
+        <span>Sign In</span>
+      `;
+      logoutBtn.title = 'Sign in to an account';
+      logoutBtn.addEventListener('click', () => {
+        window.location.href = 'login.html';
+      });
+    }
+  }
+  return true;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  loadTasks();
-  render();
+  const allowRender = initUserProfile();
+  if (allowRender) {
+    loadTasks();
+    render();
+  }
 });
