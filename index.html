@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Student Task Tracker - A clean and modern task management app for students.">
+  <title>Student Task Tracker</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header Section -->
+    <header class="app-header">
+      <div class="header-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="app-title">Student Task Tracker</h1>
+        <p class="app-subtitle">Stay organized, track your study goals, and get things done.</p>
+      </div>
+    </header>
+
+    <!-- Stats Summary Section -->
+    <section class="stats-card" aria-label="Task Statistics">
+      <div class="stat-item">
+        <span class="stat-number" id="totalTasksCount">0</span>
+        <span class="stat-label">Total Tasks</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number completed" id="completedTasksCount">0</span>
+        <span class="stat-label">Completed</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-number pending" id="pendingTasksCount">0</span>
+        <span class="stat-label">Pending</span>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-wrapper">
+        <div class="progress-info">
+          <span class="progress-text">Progress</span>
+          <span class="progress-percent" id="progressPercent">0%</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progressBarTrack">
+          <div class="progress-fill" id="progressBarFill"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Task Input Form -->
+    <section class="input-card">
+      <form id="taskForm" class="task-form" autocomplete="off">
+        <div class="input-group">
+          <input 
+            type="text" 
+            id="taskInput" 
+            class="task-input" 
+            placeholder="What study task do you need to complete? (e.g. Math homework, History essay)" 
+            maxlength="150"
+            required
+            aria-label="New task description"
+          >
+          <button type="submit" id="addTaskBtn" class="btn btn-primary" aria-label="Add task button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add Task</span>
+          </button>
+        </div>
+        <p class="error-msg" id="formError" role="alert"></p>
+      </form>
+    </section>
+
+    <!-- Task Filter & Action Bar -->
+    <div class="filter-bar">
+      <div class="filter-tabs" role="tablist" aria-label="Filter tasks">
+        <button type="button" class="filter-btn active" data-filter="all" id="filterAll" role="tab" aria-selected="true">All</button>
+        <button type="button" class="filter-btn" data-filter="pending" id="filterPending" role="tab" aria-selected="false">Pending</button>
+        <button type="button" class="filter-btn" data-filter="completed" id="filterCompleted" role="tab" aria-selected="false">Completed</button>
+      </div>
+      <button type="button" class="clear-btn" id="clearCompletedBtn" title="Clear completed tasks">Clear Completed</button>
+    </div>
+
+    <!-- Task List Container -->
+    <main class="tasks-container">
+      <ul class="task-list" id="taskList" aria-label="List of student tasks">
+        <!-- Task items will be inserted dynamically by app.js -->
+      </ul>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="empty-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+        </div>
+        <h2 class="empty-title" id="emptyTitle">No tasks found</h2>
+        <p class="empty-desc" id="emptyDesc">Add a task above to start tracking your academic progress!</p>
+      </div>
+    </main>
+
+    <!-- Footer Note -->
+    <footer class="app-footer">
+      <p>Student Task Tracker &bull; Practice Project for Git & GitHub</p>
+    </footer>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script src="app.js"></script>
+</body>
+</html>
